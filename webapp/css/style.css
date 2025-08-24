@@ -1,0 +1,13 @@
+/* Enter your custom styles here */
+.zdisbtn{
+    margin-left: 0.5rem;
+}
+.sapMDialog.sapMMessageDialog{
+    margin-top: 10rem !important;
+}
+.formNoTitle h6{
+    display: none;
+    }
+    .zspace {
+        margin-right: 1rem;
+    }

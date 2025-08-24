@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m"
+                         xmlns:core="sap.ui.core">
+    <SelectDialog 
+                  title="{i18n>CommitmentItem}"
+                  search=".onSearchCommitmentItem"
+                  confirm="handleValueHelpCommitmentItem"
+                  cancel="onCloseCommitmentItem"
+                  items="{path:'CommitmentItem>/results'}"
+				  multiSelect="false">
+        <StandardListItem title="{CommitmentItem>Fipex}" description="{CommitmentItem>Bezei}"/>
+    </SelectDialog>
+
+</core:FragmentDefinition>

@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m"
+                         xmlns:core="sap.ui.core">
+    <SelectDialog 
+                  title="{i18n>FundsCenter}"
+                  search=".onSearchFundsCenter"
+                  confirm="handleValueHelpFundsCenter"
+                  cancel="onCloseFundsCenter"
+                  items="{path:'FundsCenter>/results'}"
+				  multiSelect="false">
+        <StandardListItem title="{FundsCenter>Fictr}" description="{FundsCenter>Bezeich}"/>
+    </SelectDialog>
+
+</core:FragmentDefinition>

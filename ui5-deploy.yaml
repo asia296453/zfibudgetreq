@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: zfibudgetreq
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: SACC-DEV-200
+          url: http://vhsa1de1ap01.sap.saudiacargo.com:8000
+          client: '300'
+        app:
+          name: ZFI_BUDGET_REQ
+          description: ZFI_BUDGET_REQ
+          package: ZFIORI_FI
+          transport: DE1K908293
+        exclude:
+          - /test/
