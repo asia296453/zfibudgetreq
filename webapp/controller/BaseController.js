@@ -43,6 +43,15 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             this.irowindex1 = '';
             this.CMTEXT.close();
         },
+        onOpenPernr: function (oEvent) {
+            if (!this.dPernr) {
+                this.dPernr = sap.ui.xmlfragment("zfibudgetreq.fragment.Pernr", this);
+                this.getView().addDependent(this.dPernr);
+            };            
+            this.getOdata("/EMPDTSet","userdetails",null);
+            this.dPernr.open();
+        },
+
         onOpenFundsctr: function (oEvent) {
             var irow = oEvent.getParameter("id").split("-");
             var irowindex = irow[irow.length-1];
@@ -67,22 +76,28 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
         },
         onValidation:function(ovalue){
             var bflag = true;
-            if(ovalue.Btext === null || ovalue.Btext === ''){
+            
+            // else if(ovalue.Docdate === null || ovalue.Docdate === ''){
+            //     MessageBox.error("Please enter Document Date");
+            //     bflag = false;
+            // }
+             if(ovalue.Pernr === null || ovalue.Pernr === ''){
+                MessageBox.error("Please enter Employee Number");
+                bflag = false;
+            }
+            else if(ovalue.Btext === null || ovalue.Btext === ''){
                 MessageBox.error("Please enter Description");
                 bflag = false;
             }
-            else if(ovalue.Docdate === null || ovalue.Docdate === ''){
-                MessageBox.error("Please enter Document Date");
+            else if(ovalue.Process === null || ovalue.Process === ''){
+                MessageBox.error("Please select Process Type");
                 bflag = false;
             }
-            // else if(ovalue.ExpType === null || ovalue.ExpType === ''){
-            //     MessageBox.error("Please enter Expense/Reimbursement");
+           
+            // else if(ovalue.Docyear === null || ovalue.Docyear === '' || ovalue.Docyear === '0000'){
+            //     MessageBox.error("Please enter Document Year");
             //     bflag = false;
             // }
-            else if(ovalue.Docyear === null || ovalue.Docyear === '' || ovalue.Docyear === '0000'){
-                MessageBox.error("Please enter Document Year");
-                bflag = false;
-            }
            
             else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet === undefined){
                 MessageBox.error("Attachment is mandatory");
@@ -170,6 +185,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             // sap.m.URLHelper.redirect(finalUrl, true);
 
         },
+        onSearchPernr: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oFilter = new sap.ui.model.Filter("Pernr", sap.ui.model.FilterOperator.Contains, sValue);
+            oEvent.getSource().getBinding("items").filter([oFilter]);
+        },
         onSearchFundsCenter: function (oEvent) {
             var sValue = oEvent.getParameter("value");
             var oFilter = new sap.ui.model.Filter("Fictr", sap.ui.model.FilterOperator.EQ, sValue);
@@ -206,7 +226,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
     
                     this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                     this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget";
+                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary";
                     //this.getResourceBundle().refresh(true);
                 }
                 else{
@@ -218,13 +238,36 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                     }
                     this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                     this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget Display";
+                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
                     //this.getResourceBundle().refresh(true);
                 }
             });
             //this.readAllAttachmentData('', '',sValue);
            }
             
+        },
+        ongetpernr:function(e){
+            this.ongetpernrdtls(e.getParameter("value"));
+        },
+        ongetpernrdtls:function (spernr){
+            var oFilter = new sap.ui.model.Filter("Pernr", sap.ui.model.FilterOperator.EQ, spernr);
+            this.getOdata("/EMPDTSet(Pernr='" + spernr + "')","user", null).then((res1) => {
+                this.getOwnerComponent().getModel("create").getData().results.Kostl = res1.Kostl;
+                this.getOwnerComponent().getModel("create").getData().results.Ktext = res1.Ktext;
+                this.getOwnerComponent().getModel("create").getData().results.Dept = res1.Dept;
+                this.getOwnerComponent().getModel("create").getData().results.Dtext = res1.Dtext;
+                this.getOwnerComponent().getModel("create").getData().results.Divis = res1.Divis;
+                this.getOwnerComponent().getModel("create").getData().results.Ditxt = res1.Ditxt;
+                this.getOwnerComponent().getModel("create").getData().results.Pernr = res1.Pernr;
+                this.getOwnerComponent().getModel("create").getData().results.Perna = res1.Perna;
+                this.getOwnerComponent().getModel("create").refresh(true);
+            });
+        },
+        oncheckbox: function (e) {
+
+        },
+        handleValueHelpPernr: function (e) {
+           this.ongetpernrdtls(e.getParameter("selectedItem").getProperty("title"));
         },
         handleValueHelpCommitmentItem: function (e) {
             this.getView().byId("itemtable").getItems()[this.irowindex1].getCells()[3].setValue(e.getParameter("selectedItem").getProperty("title"));

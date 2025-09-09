@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns="sap.m"
+                         xmlns:core="sap.ui.core">
+    <SelectDialog 
+                  title="{i18n>EmployeeName}"
+                  search=".onSearchPernr"
+                  confirm="handleValueHelpPernr"
+                  cancel="onClosePernr"
+                  items="{path:'userdetails>/results'}"
+				  multiSelect="false">
+        <StandardListItem title="{userdetails>Pernr}" description="{userdetails>Perna}"/>
+    </SelectDialog>
+
+</core:FragmentDefinition>

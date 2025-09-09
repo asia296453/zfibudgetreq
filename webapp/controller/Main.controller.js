@@ -27,7 +27,7 @@ sap.ui.define([
                 this.getOwnerComponent().getComponentData().startupParameters.Breqno !== undefined){
                 sBreqno = this.getOwnerComponent().getComponentData().startupParameters.Breqno[0];
             }
-            debugger;
+            
                 if(window.location.href.indexOf("Breqno") !== -1){
                     var complete_url = window.location.href;
                     var pieces = complete_url.split("?");
@@ -63,25 +63,39 @@ sap.ui.define([
             if (stype === 'display') {
                 smodel='create';
             }
-           
+            
+             var ddate = new Date();
+            var sTimeformat = sap.ui.core.format.DateFormat.getDateInstance({
+                pattern : "PThh'H'mm'M'ss'S'"
+            });
+            var scurtime = sTimeformat.format(ddate);
             
             this.getOdata("/BUDREQSet(Breqno='" + sBreqno + "')", smodel, null, true).then((response) => {
                 if (this.getOwnerComponent().getModel("create").getData().results.Status === '') {
                     sBreqno = '';
                 }
+                this.getOwnerComponent().getModel("create").getData().results.Docdate = ddate;
+                    this.getOwnerComponent().getModel("create").refresh(true);
+                if(response.Pernr === '00000000'){
+                    this.getOwnerComponent().getModel("create").getData().results.Pernr = '';
+                    this.getOwnerComponent().getModel("create").getData().results.Perna = '';
+                    this.getOwnerComponent().getModel("create").refresh(true);
+                }
+                
                 this.setinitialdata1(sBreqno, stype, response,smodel);
-            });
+            
             
             if(sBreqno !== '')
             {                       
                 this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle ='';
                 var oFilter = new sap.ui.model.Filter("Breqno", sap.ui.model.FilterOperator.EQ, sBreqno);
                 this.getOdata("/BRWRLOGSet","approvallog", oFilter);
+                this.getOdata("/EMPDTSet(Pernr='" + response.Pernr + "')","user", null);
                 this.getOwnerComponent().getModel("Breqno").setProperty("/results", false);
             }else{
                 this.getOwnerComponent().getModel("Breqno").setProperty("/results", true);
             }
-            
+            });
        
         },
         setinitialdata1:function(sBreqno,stype,response,smodel){  
@@ -105,7 +119,7 @@ sap.ui.define([
                     "editable": false
                 }
                 this.getOwnerComponent().getModel("Header").setProperty("/data", sstr1);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
                 
                  
             }else if(stype === 'create'){
@@ -113,7 +127,7 @@ sap.ui.define([
                     "editable": true
                 }
                 this.getOwnerComponent().getModel("Header").setProperty("/data", sstr1);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary";
                 
                
                 if(sBreqno === ''){
@@ -131,9 +145,13 @@ sap.ui.define([
                     "editable": false
                 }
                 this.getOwnerComponent().getModel("Header").setProperty("/data", sstr1);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
               
             }
+            var sstr2 = {
+                    "onbehalf": false
+                }
+                this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
         },
 
        
@@ -192,7 +210,7 @@ sap.ui.define([
             }
             this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
             this.getOwnerComponent().getModel("ViewVis").refresh(true);
-            this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget Display";
+            this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
             this.getOdata("/BUDREQSet(Breqno='')", "display", null,true).then((response) => {
                 if(response.Pernr === '00000000'){
                     this.getOwnerComponent().getModel("display").getData().results.Pernr = '';
@@ -227,7 +245,7 @@ sap.ui.define([
                 }
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
 
                 if(sBreqno !== '')
                     {
@@ -250,7 +268,7 @@ sap.ui.define([
 
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary";
             }
             else if(window.location.href.indexOf("zfibudgetreq-manage") !== -1){
                 var sstr2 = {
@@ -262,7 +280,7 @@ sap.ui.define([
 
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget-On Behalf";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary-On Behalf";
                 
                 
             }
@@ -273,7 +291,7 @@ sap.ui.define([
                 }
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "Authorization to Exceed Budget Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
             }
         },
 
@@ -401,12 +419,13 @@ sap.ui.define([
                             // if(item.Amt !== ''){
                             //     oPayload.Totamt = parseFloat(oPayload.Totamt) + parseFloat(item.Amt);
                             // }
+                            item.Curr = 'SAR';
                             
                         });
                        // oPayload.Totamt = (oPayload.Totamt).toString();
                         this.showBusy(true);  
-                        oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
-   
+                        // oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
+                        
                         this.getModel().create("/BUDREQSet", oPayload, {
                             method: "POST",
                             success: function (oData,res) {
@@ -535,7 +554,7 @@ sap.ui.define([
                     this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle ='';
                     var oFilter = new sap.ui.model.Filter("Breqno", sap.ui.model.FilterOperator.EQ, sBreqno);
                     this.getOdata("/BRWRLOGSet","approvallog", oFilter);
-                    this.getOdata("/USREMPSet(Usrid='" + this.suser + "')","user", null);
+                    this.getOdata("/EMPDTSet(Pernr='" + this.getOwnerComponent().getModel("create").getData().results.Pernr + "')","user", null);
                 }
             var sstr1 = {
                 "editable": true

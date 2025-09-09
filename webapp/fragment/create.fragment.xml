@@ -29,6 +29,56 @@
 			<Label text="{i18n>BudgetRequestNo}" />
 				<Text text="{create>/results/Breqno}" />
 
+			<Label text="{i18n>OnBehalfof}" visible="{= ${Header>/data/editable}===true? true : false}"/>
+			<CheckBox  selected="{ViewVis>/data/onbehalf}" 
+			select="oncheckbox"
+			visible="{= ${Header>/data/editable}===true? true : false}"/>
+
+
+			<Label text="{i18n>EmployeeName}" visible="{= ${ViewVis>/data/onbehalf}===false? true : false}" />
+				<Input  value="{create>/results/Pernr}"  change="ongetpernr"
+				visible="{= ${ViewVis>/data/onbehalf}===false? true : false}"
+				editable="{Header>/data/editable}"
+                enabled="{Header>/data/editable}"/>
+                <Text text="{create>/results/Perna}" visible="{= ${ViewVis>/data/onbehalf}===false? true : false}" >
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
+		<Label text="{i18n>EmployeeName}"  visible="{= ${ViewVis>/data/onbehalf}===true? true : false}"/>
+				<Input  value="{create>/results/Pernr}" 
+				 visible="{= ${ViewVis>/data/onbehalf}===true? true : false}" 
+				 showValueHelp="true"
+				 valueHelpRequest="onOpenPernr"
+				 valueHelpOnly="true"/>
+
+                <Text text="{create>/results/Perna}"   visible="{= ${ViewVis>/data/onbehalf}===true? true : false}" >
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
+			<Label text="{i18n>CostCentre}" />
+				<Text text="{user>/results/Kostl}" />
+				<Text text="{user>/results/Ktext}">
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
+
+			<Label text="{i18n>Division}" />
+				<Text text="{user>/results/Ditxt}" />
+
+			<Label text="{i18n>Department}" />
+				<Text text="{user>/results/Dept}" />
+				<Text text="{user>/results/Dtext}">
+					<layoutData>
+						<l:GridData span="XL1 L2 M2 S4" />
+					</layoutData>
+				</Text>
+
 			<Label text="{i18n>desc}" />
 				<TextArea value="{create>/results/Btext}" required="true"
 				editable="{Header>/data/editable}"
@@ -42,10 +92,24 @@
 							'pattern': 'dd-MM-yyyy',
                             'UTC': true
 						}				
-					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" />
+					}"  editable="false"
+                enabled="false" />
 
-			<Label text="{i18n>docYear}" />
+	<Label text="{i18n>DocType}" />
+				<Text text="1000 - SACC Budget" />
+
+				<Label text="{i18n>BudgetType}" />
+				<Text text="BT01 - Release Budget" />
+
+				<Label text="{i18n>ProcessType}" />
+				<ComboBox selectedKey="{create>/results/Process}" editable="{Header>/data/editable}"
+                enabled="{Header>/data/editable}" required="true">
+				<items>
+						<core:Item key="INIT" text="Initiation"/>
+						<core:Item key="SUPP" text="Supplement"/>						
+				</items>
+				</ComboBox>
+			<!-- <Label text="{i18n>docYear}" />
 				<DatePicker  value="{
 						'path': 'create>/results/Docyear',
 						'type':'sap.ui.model.type.Date',
@@ -54,7 +118,7 @@
                             'UTC': true
 						}				
 					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" />
+                enabled="{Header>/data/editable}" /> -->
 
 
 			
@@ -69,7 +133,7 @@
                 />
 				</f:content>
 		</f:SimpleForm>
-		<f:SimpleForm  
+		<!-- <f:SimpleForm  
 			editable="true"
 			layout="ResponsiveGridLayout"
 			title=""
@@ -87,7 +151,7 @@
 			columnsM="1"
 			singleContainerFullSize="false" 
 			class="formNoTitle">
-			<f:content>
+			<f:content> -->
 				<Table id="itemtable" items="{path:'item>/results',templateShareable: false}"
                 >
                 <headerToolbar>
@@ -110,11 +174,17 @@
 						<Column >
                             <Text text="Description" />
                         </Column>
-                        <Column  >
-                            <Text text="{i18n>Amount}" />
+						 <Column  >
+                            <Text text="Currency" />
                         </Column>
                         <Column  >
-                            <Text text="{i18n>Currency}" />
+                            <Text text="{i18n>Amount} (SAR)" />
+                        </Column>
+                        <Column  >
+                            <Text text="Item Text" />
+                        </Column>
+						<Column  >
+                            <Text text="Actual Availability Budget" />
                         </Column>
                     </columns>
                     <items>
@@ -139,13 +209,15 @@
 								valueHelpOnly="true"
 						   />
 						   <Text text='{item>Cmtxt}'></Text>
+						   <Input value='{item>Curr}' />
                           <Input value='{item>Amt}' type="Number"  enabled="{Header>/data/editable}" />
-						  <Input value='{item>Curr}'   enabled="{Header>/data/editable}" />
+						 <Input value='{item>Sgtxt}'   enabled="{Header>/data/editable}" />
+						  <Input value=''   enabled="{Header>/data/editable}" />
                         </ColumnListItem>
                     </items>
                 </Table>
-			</f:content>
-		</f:SimpleForm>
+			<!-- </f:content>
+		</f:SimpleForm> -->
 				<f:SimpleForm  visible="{= !${Header>/data/editable}}"
 			editable="true"
 			layout="ResponsiveGridLayout"
