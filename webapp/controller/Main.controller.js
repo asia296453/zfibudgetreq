@@ -424,7 +424,7 @@ sap.ui.define([
                         });
                        // oPayload.Totamt = (oPayload.Totamt).toString();
                         this.showBusy(true);  
-                        // oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
+                         oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
                         
                         this.getModel().create("/BUDREQSet", oPayload, {
                             method: "POST",

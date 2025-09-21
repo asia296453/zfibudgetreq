@@ -94,10 +94,10 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 bflag = false;
             }
            
-            // else if(ovalue.Docyear === null || ovalue.Docyear === '' || ovalue.Docyear === '0000'){
-            //     MessageBox.error("Please enter Document Year");
-            //     bflag = false;
-            // }
+            else if(ovalue.Docyear === null || ovalue.Docyear === '' || ovalue.Docyear === '0000'){
+                MessageBox.error("Please enter Document Year");
+                bflag = false;
+            }
            
             else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet === undefined){
                 MessageBox.error("Attachment is mandatory");
