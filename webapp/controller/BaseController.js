@@ -104,6 +104,11 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 bflag = false;
             }
             else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet !== undefined
+                && this.getView().byId("idUploadCollectionAttachments").getItems().length === 0){
+                MessageBox.error("Attachment is mandatory");
+                bflag = false;
+            }
+            else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet !== undefined
                 && this.getOwnerComponent().getModel("attachflag").getProperty("/flag") !== undefined
                  && this.getOwnerComponent().getModel("attachflag").getProperty("/flag") === ''){
                 MessageBox.error("Attachment is mandatory");
@@ -200,6 +205,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             var oFilter = new sap.ui.model.Filter("Fipex", sap.ui.model.FilterOperator.EQ, sValue);
             this.getOdata("/CMTEXTSet","CommitmentItem",[oFilter]);
         },
+        ongetActualAvl:function(sfund,scomm,iindx){
+            var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='')";
+            this.getOdata(surl,"",null).then((res) => {
+                this.getView().byId("itemtable").getItems()[iindx].getCells()[8].setText(res.Amt);
+            });
+        },
         onPressDisplay: function (oEvent) {
             var suser = '';
             if(sap.ushell !== undefined){
@@ -272,8 +283,14 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
         handleValueHelpCommitmentItem: function (e) {
             this.getView().byId("itemtable").getItems()[this.irowindex1].getCells()[3].setValue(e.getParameter("selectedItem").getProperty("title"));
             this.getView().byId("itemtable").getItems()[this.irowindex1].getCells()[4].setText(e.getParameter("selectedItem").getProperty("description"));
-            this.irowindex1 = '';
+            
 
+            var oitem = this.getView().byId("itemtable").getItems()[this.irowindex1];
+            if(oitem.getCells()[1].getValue() !== ''
+            && oitem.getCells()[3].getValue() !== ''){
+                this.ongetActualAvl(oitem.getCells()[1].getValue(),oitem.getCells()[3].getValue(),this.irowindex1);
+            }
+            this.irowindex1 = '';
         //     var oFilter = new sap.ui.model.Filter("Fipex", sap.ui.model.FilterOperator.EQ, e.getParameter("selectedItem").getProperty("title"));
         //    this.showBusy(true);
         //     this.getView().getModel().read("/CMTEXT(Fipex='" + e.getParameter("selectedItem").getProperty("title") + "')", {
@@ -295,7 +312,13 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
         handleValueHelpFundsCenter: function (e) {
         this.getView().byId("itemtable").getItems()[this.irowindex].getCells()[1].setValue(e.getParameter("selectedItem").getProperty("title"));
         this.getView().byId("itemtable").getItems()[this.irowindex].getCells()[2].setText(e.getParameter("selectedItem").getProperty("description"));
-        this.irowindex = '';
+       
+        var oitem = this.getView().byId("itemtable").getItems()[this.irowindex];
+        if(oitem.getCells()[1].getValue() !== ''
+            && oitem.getCells()[3].getValue() !== ''){
+                this.ongetActualAvl(oitem.getCells()[1].getValue(),oitem.getCells()[3].getValue(),this.irowindex);
+            }
+          this.irowindex = '';   
         //     var oFilter = new sap.ui.model.Filter("Fictr", sap.ui.model.FilterOperator.EQ, e.getParameter("selectedItem").getProperty("title"));
         //    this.showBusy(true);
         //     this.getView().getModel().read("/FCTEXTSet(Fictr='" + e.getParameter("selectedItem").getProperty("title") + "')", {
@@ -392,7 +415,8 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                     },
                     success: function (oData) {
                         this.showBusy(false);
-                        if(oData.results !== undefined){
+                        if(smodelname !== ''){
+                        if(oData.results !== undefined  ){
                             this.getModel(smodelname).setProperty("/results", oData.results);
                             resolve(oData.results);
                         }else{
@@ -412,10 +436,12 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                                     }                                    
                                 });
                                 this.getModel("item").setProperty("/results", oData.BudgetToItem.results);
-                            }
-                            resolve(oData);
+                            }                           
+                            
+                        }
                         }
                         
+                            resolve(oData);
                     }.bind(this),
                     error: function (oError) {
                         this.showBusy(false);
