@@ -99,21 +99,21 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 bflag = false;
             }
            
-            else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet === undefined){
-                MessageBox.error("Attachment is mandatory");
-                bflag = false;
-            }
-            else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet !== undefined
-                && this.getView().byId("idUploadCollectionAttachments").getItems().length === 0){
-                MessageBox.error("Attachment is mandatory");
-                bflag = false;
-            }
-            else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet !== undefined
-                && this.getOwnerComponent().getModel("attachflag").getProperty("/flag") !== undefined
-                 && this.getOwnerComponent().getModel("attachflag").getProperty("/flag") === ''){
-                MessageBox.error("Attachment is mandatory");
-                bflag = false;
-            }
+            // else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet === undefined){
+            //     MessageBox.error("Attachment is mandatory");
+            //     bflag = false;
+            // }
+            // else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet !== undefined
+            //     && this.getView().byId("idUploadCollectionAttachments").getItems().length === 0){
+            //     MessageBox.error("Attachment is mandatory");
+            //     bflag = false;
+            // }
+            // else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet !== undefined
+            //     && this.getOwnerComponent().getModel("attachflag").getProperty("/flag") !== undefined
+            //      && this.getOwnerComponent().getModel("attachflag").getProperty("/flag") === ''){
+            //     MessageBox.error("Attachment is mandatory");
+            //     bflag = false;
+            // }
             else if(this.getView().getModel("item").getData().results === undefined){
                 MessageBox.error("Please enter Funds Center");
                 bflag = false;
@@ -209,6 +209,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='')";
             this.getOdata(surl,"",null).then((res) => {
                 this.getView().byId("itemtable").getItems()[iindx].getCells()[8].setText(res.Amt);
+                this.getView().byId("itemtable").getItems()[iindx].getCells()[5].setValue(res.Curr);
             });
         },
         onPressDisplay: function (oEvent) {

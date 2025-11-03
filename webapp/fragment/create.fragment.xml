@@ -211,7 +211,7 @@
 						   <Text text='{item>Cmtxt}'></Text>
 						   <Input value='{item>Curr}' />
                           <Input value='{item>Amt}' type="Number"  enabled="{Header>/data/editable}" />
-						 <Input value='{item>Sgtxt}'   enabled="{Header>/data/editable}" />
+						 <Input value='{item>Sgtxt}'   enabled="{Header>/data/editable}" maxLength="50"/>
 						  <Text text='{item>Avbty}'  />
                         </ColumnListItem>
                     </items>
