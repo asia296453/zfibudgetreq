@@ -69,8 +69,11 @@ sap.ui.define([
                 pattern : "PThh'H'mm'M'ss'S'"
             });
             var scurtime = sTimeformat.format(ddate);
-            
+            // this.suser = '12002795';
             this.getOdata("/BUDREQSet(Breqno='" + sBreqno + "')", smodel, null, true).then((response) => {
+                this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
+                    this.ongetpernrdtls(res.Pernr);
+                 });
                 if (this.getOwnerComponent().getModel("create").getData().results.Status === '') {
                     sBreqno = '';
                 }
