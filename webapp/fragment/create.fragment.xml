@@ -38,8 +38,8 @@
 			<Label text="{i18n>EmployeeName}" visible="{= ${ViewVis>/data/onbehalf}===false? true : false}" />
 				<Input  value="{create>/results/Pernr}"  change="ongetpernr"
 				visible="{= ${ViewVis>/data/onbehalf}===false? true : false}"
-				editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}"/>
+				editable="false"
+                enabled="false"/>
                 <Text text="{create>/results/Perna}" visible="{= ${ViewVis>/data/onbehalf}===false? true : false}" >
 					<layoutData>
 						<l:GridData span="XL1 L2 M2 S4" />
@@ -93,7 +93,7 @@
                             'UTC': true
 						}				
 					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" />
+                enabled="{Header>/data/editable}" change="onpostingdate"/>
 
 	<Label text="{i18n>DocType}" />
 				<Text text="1000 - SACC Budget" />
@@ -110,7 +110,8 @@
 				</items>
 				</ComboBox>
 			 <Label text="{i18n>docYear}" />
-				<DatePicker  value="{
+			 <Text text="{create>/results/Docyear}"></Text>
+				<!-- <DatePicker  value="{
 						'path': 'create>/results/Docyear',
 						'type':'sap.ui.model.type.Date',
 						'formatOptions': {
@@ -118,7 +119,7 @@
                             'UTC': true
 						}				
 					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" /> 
+                enabled="{Header>/data/editable}" />  -->
 
 
 			
@@ -209,7 +210,7 @@
 								valueHelpOnly="true"
 						   />
 						   <Text text='{item>Cmtxt}'></Text>
-						   <Input value='{item>Curr}' />
+						   <Text text='{item>Curr}' />
                           <Input value='{item>Amt}' type="Number"  enabled="{Header>/data/editable}" />
 						 <Input value='{item>Sgtxt}'   enabled="{Header>/data/editable}" maxLength="50"/>
 						  <Text text='{item>Avbty}'  />

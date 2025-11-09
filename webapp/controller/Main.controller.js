@@ -54,7 +54,7 @@ sap.ui.define([
             else if(window.location.href.indexOf("zfibudgetreq-create") !== -1){
                 stype = "create";
             }else{
-                stype = "create";
+                stype = "display";
             }
             this.setinitialmodels1(sBreqno,stype);
         },
@@ -69,7 +69,7 @@ sap.ui.define([
                 pattern : "PThh'H'mm'M'ss'S'"
             });
             var scurtime = sTimeformat.format(ddate);
-            // this.suser = '12002795';
+            //this.suser = '12002795';
             this.getOdata("/BUDREQSet(Breqno='" + sBreqno + "')", smodel, null, true).then((response) => {
                 this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
                     this.ongetpernrdtls(res.Pernr);
@@ -78,6 +78,7 @@ sap.ui.define([
                     sBreqno = '';
                 }
                 this.getOwnerComponent().getModel("create").getData().results.Docdate = ddate;
+                this.getdocyear(ddate);
                     this.getOwnerComponent().getModel("create").refresh(true);
                 if(response.Pernr === '00000000'){
                     this.getOwnerComponent().getModel("create").getData().results.Pernr = '';
@@ -427,7 +428,7 @@ sap.ui.define([
                         });
                        // oPayload.Totamt = (oPayload.Totamt).toString();
                         this.showBusy(true);  
-                         oPayload.Docyear = oPayload.Docyear.getFullYear().toString();
+                         oPayload.Docyear = oPayload.Docyear;//.getFullYear().toString();
                         
                         this.getModel().create("/BUDREQSet", oPayload, {
                             method: "POST",

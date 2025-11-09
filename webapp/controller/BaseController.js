@@ -206,10 +206,27 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             this.getOdata("/CMTEXTSet","CommitmentItem",[oFilter]);
         },
         ongetActualAvl:function(sfund,scomm,iindx){
-            var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='')";
+            var syear = this.getOwnerComponent().getModel("create").getData().results.Docyear;
+            var surl = "/BUDAVBSet(Fundsctr='" + sfund + "',Cmmtitem='" + scomm + "',Fyear='" + syear + "')";
             this.getOdata(surl,"",null).then((res) => {
                 this.getView().byId("itemtable").getItems()[iindx].getCells()[8].setText(res.Amt);
-                this.getView().byId("itemtable").getItems()[iindx].getCells()[5].setValue(res.Curr);
+                this.getView().byId("itemtable").getItems()[iindx].getCells()[5].setText(res.Curr);
+            });
+        },
+        onpostingdate:function(e){
+            var sdate = new Date(e.getSource().getProperty("dateValue"));
+            this.getdocyear(sdate);
+        },
+        getdocyear:function(sdate){
+            var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({
+                pattern: "yyyy-MM-ddTHH:mm:ss"
+            });
+            var sdate1 = dateFormat.format(sdate);
+            var sdate2=sdate1.replaceAll(":","%3A");
+            var surl = "/FYEARSet(Docdate=datetime'" + sdate2 + "')";
+            this.getOdata(surl,"",null).then((res) => {
+                this.getOwnerComponent().getModel("create").getData().results.Docyear = res.Docyear;
+                this.getOwnerComponent().getModel("create").refresh(true);
             });
         },
         onPressDisplay: function (oEvent) {
@@ -276,7 +293,18 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             });
         },
         oncheckbox: function (e) {
-
+            debugger;
+            if(e.getParameter("selected") === false){
+                
+            this.suser = '';
+            if(sap.ushell !== undefined){
+                this.suser = sap.ushell.Container.getService("UserInfo").getId();
+            }
+            //this.suser = '12002795';
+             this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
+                    this.ongetpernrdtls(res.Pernr);
+                 });
+                }
         },
         handleValueHelpPernr: function (e) {
            this.ongetpernrdtls(e.getParameter("selectedItem").getProperty("title"));
