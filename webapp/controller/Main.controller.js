@@ -71,9 +71,18 @@ sap.ui.define([
             var scurtime = sTimeformat.format(ddate);
             //this.suser = '12002795';
             this.getOdata("/BUDREQSet(Breqno='" + sBreqno + "')", smodel, null, true).then((response) => {
-                this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
-                    this.ongetpernrdtls(res.Pernr);
-                 });
+                if(response.Breqno !== '' && response.Breqno !== null 
+                    && response.Breqno !== undefined && response.Breqno !== '00000000'){
+                        this.getOdata("/CRTDETSet(Crtby='" + response.Pernr + "')", "user", null).then((res) => {
+                            this.ongetpernrdtls(res.Pernr);
+                        });
+                    }
+                    else{
+                        this.getOdata("/CRTDETSet(Crtby='" + this.suser + "')", "user", null).then((res) => {
+                            this.ongetpernrdtls(res.Pernr);
+                        });
+                    }
+                
                 if (this.getOwnerComponent().getModel("create").getData().results.Status === '') {
                     sBreqno = '';
                 }
