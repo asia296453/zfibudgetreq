@@ -68,7 +68,7 @@
 				</Text>
 
 
-			<Label text="{i18n>Division}" />
+			<!-- <Label text="{i18n>Division}" />
 				<Text text="{user>/results/Ditxt}" />
 
 			<Label text="{i18n>Department}" />
@@ -77,7 +77,7 @@
 					<layoutData>
 						<l:GridData span="XL1 L2 M2 S4" />
 					</layoutData>
-				</Text>
+				</Text> -->
 
 			<Label text="{i18n>desc}" />
 				<TextArea value="{create>/results/Btext}" required="true"
