@@ -60,7 +60,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 this.FCTEXT = sap.ui.xmlfragment("zfibudgetreq.fragment.FundsCenter", this);
                 this.getView().addDependent(this.FCTEXT);
             };            
-            var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.suser);
+            var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.getOwnerComponent().getModel("create").getData().results.Pernr);
             this.getOdata("/FCTEXTSet","FundsCenter",oFilter1);
             this.FCTEXT.open();
         },
