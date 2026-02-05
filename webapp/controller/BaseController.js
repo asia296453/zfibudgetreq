@@ -199,7 +199,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
         onSearchFundsCenter: function (oEvent) {
             var sValue = oEvent.getParameter("value");
             var oFilter = new sap.ui.model.Filter("Fictr", sap.ui.model.FilterOperator.EQ, sValue);
-            var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.suser); 
+            var oFilter1 = new sap.ui.model.Filter("Mctxt", sap.ui.model.FilterOperator.EQ, this.getOwnerComponent().getModel("create").getData().results.Pernr); 
             this.getOdata("/FCTEXTSet","FundsCenter", [oFilter,oFilter1]);
         },
         onSearchCommitmentItem: function (oEvent) {
