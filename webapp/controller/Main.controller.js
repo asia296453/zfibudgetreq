@@ -138,7 +138,7 @@ sap.ui.define([
                     "editable": false
                 }
                 this.getOwnerComponent().getModel("Header").setProperty("/data", sstr1);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary Display";
                 
                  
             }else if(stype === 'create'){
@@ -146,7 +146,7 @@ sap.ui.define([
                     "editable": true
                 }
                 this.getOwnerComponent().getModel("Header").setProperty("/data", sstr1);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary";
                 
                
                 if(sBreqno === ''){
@@ -164,7 +164,7 @@ sap.ui.define([
                     "editable": false
                 }
                 this.getOwnerComponent().getModel("Header").setProperty("/data", sstr1);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary Display";
               
             }
             var sstr2 = {
@@ -229,7 +229,7 @@ sap.ui.define([
             }
             this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
             this.getOwnerComponent().getModel("ViewVis").refresh(true);
-            this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
+            this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary Display";
             this.getOdata("/BUDREQSet(Breqno='')", "display", null,true).then((response) => {
                 if(response.Pernr === '00000000'){
                     this.getOwnerComponent().getModel("display").getData().results.Pernr = '';
@@ -264,7 +264,7 @@ sap.ui.define([
                 }
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary Display";
 
                 if(sBreqno !== '')
                     {
@@ -287,7 +287,7 @@ sap.ui.define([
 
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary";
             }
             else if(window.location.href.indexOf("zfibudgetreq-manage") !== -1){
                 var sstr2 = {
@@ -299,7 +299,7 @@ sap.ui.define([
 
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary-On Behalf";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary-On Behalf";
                 
                 
             }
@@ -310,7 +310,7 @@ sap.ui.define([
                 }
                 this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                 this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
+                this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary Display";
             }
         },
 

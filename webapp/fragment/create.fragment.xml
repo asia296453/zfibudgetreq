@@ -92,8 +92,8 @@
 							'pattern': 'dd-MM-yyyy',
                             'UTC': true
 						}				
-					}"  editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" change="onpostingdate"/>
+					}"  editable="false"
+                enabled="false" change="onpostingdate"/>
 
 	<Label text="{i18n>DocType}" />
 				<Text text="1000 - SACC Budget" />
@@ -105,7 +105,7 @@
 				<ComboBox selectedKey="{create>/results/Process}" editable="{Header>/data/editable}"
                 enabled="{Header>/data/editable}" required="true">
 				<items>
-						<core:Item key="ENTR" text="Initiation"/>
+						<!-- <core:Item key="ENTR" text="Initiation"/> -->
 						<core:Item key="SUPL" text="Supplement"/>						
 				</items>
 				</ComboBox>

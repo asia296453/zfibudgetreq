@@ -87,7 +87,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 bflag = false;
             }
             else if(ovalue.Btext === null || ovalue.Btext === ''){
-                MessageBox.error("Please enter Description");
+                MessageBox.error("Please enter Justification");
                 bflag = false;
             }
             else if(ovalue.Process === null || ovalue.Process === ''){
@@ -257,7 +257,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
     
                     this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                     this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary";
+                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary";
                     //this.getResourceBundle().refresh(true);
                 }
                 else{
@@ -269,7 +269,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                     }
                     this.getOwnerComponent().getModel("ViewVis").setProperty("/data", sstr2);
                     this.getOwnerComponent().getModel("ViewVis").refresh(true);
-                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Initiation/Supplementary Display";
+                    this.getResourceBundle().aPropertyFiles[0].mProperties.appTitle = "SACC Budget Supplementary Display";
                     //this.getResourceBundle().refresh(true);
                 }
             });
