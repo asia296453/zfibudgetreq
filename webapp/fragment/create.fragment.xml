@@ -102,8 +102,8 @@
 				<Text text="BT01 - Release Budget" />
 
 				<Label text="{i18n>ProcessType}" />
-				<ComboBox selectedKey="{create>/results/Process}" editable="{Header>/data/editable}"
-                enabled="{Header>/data/editable}" required="true">
+				<ComboBox selectedKey="{create>/results/Process}" editable="false"
+                enabled="false" required="true">
 				<items>
 						<!-- <core:Item key="ENTR" text="Initiation"/> -->
 						<core:Item key="SUPL" text="Supplement"/>						

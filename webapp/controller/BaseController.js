@@ -99,7 +99,17 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                 MessageBox.error("Please enter Document Year");
                 bflag = false;
             }
-           
+            else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet === undefined){
+                MessageBox.error("Attachment is mandatory");
+                bflag = false;
+            }
+            
+            else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet !== undefined
+                && this.getView().byId("idUploadCollectionAttachments") !== undefined
+                && this.getView().byId("idUploadCollectionAttachments").getItems().length === 0){
+                MessageBox.error("Attachment is mandatory");
+                bflag = false;
+            }
             // else if(this.getModel("UploadAttachmentModel").getData().ATTACHSet === undefined){
             //     MessageBox.error("Attachment is mandatory");
             //     bflag = false;
@@ -719,6 +729,46 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
                             this.getView().byId("idUploadCollectionAttachments").getItems().forEach(function (item,idx) {
                                if(item.mProperties.fileName === this.sfile){
                                 this.getView().byId("idUploadCollectionAttachments").removeItem(idx);
+                               }
+                            }.bind(this));
+                        }}.bind(this)});
+    
+                return;
+            }
+            
+            //this.getOwnerComponent().getModel("attachflag").setProperty("/flag", 'X');
+            var t = "/sap/opu/odata/sap/ZFI_BUDGET_REQ_SRV",
+                //EOC-EX-GOME
+                a = {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Content-Type": "application/atom+xml",
+                    "X-CSRF-Token": "Fetch"
+                },
+                i = new sap.ui.model.odata.ODataModel(t, "false", "", "", a, true);
+            sap.ui.getCore().setModel(i, "XCRFTokenModel");
+            sap.ui.getCore().getModel("XCRFTokenModel").refreshSecurityToken();
+            var r = sap.ui.getCore().getModel("XCRFTokenModel").getHeaders()["x-csrf-token"],
+                o = e.getSource(),
+                s = new sap.m.UploadCollectionParameter({
+                    name: "x-csrf-token",
+                    value: r
+                });
+            o.addHeaderParameter(s)
+        },
+
+        onChangeListData1: function (e) {
+            //BOC-EX-GOME
+            var sregex = /^[0-9a-zA-Z ... ]+$/;
+            var ofile = e.mParameters.files[0].name.split(".");
+            this.sfile = e.mParameters.files[0].name;
+            if(ofile.length > 2){
+                sap.m.MessageBox.error("Invalid Filename", {
+                    initialFocus: sap.m.MessageBox.Action.CANCEL,
+                    onClose: function (sButton) {
+                        if (sButton == "CLOSE") {
+                            this.getView().byId("idUploadCollectionAttachments1").getItems().forEach(function (item,idx) {
+                               if(item.mProperties.fileName === this.sfile){
+                                this.getView().byId("idUploadCollectionAttachments1").removeItem(idx);
                                }
                             }.bind(this));
                         }}.bind(this)});

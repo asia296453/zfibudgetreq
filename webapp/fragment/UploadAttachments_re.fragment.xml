@@ -4,7 +4,7 @@
 		<UploadCollection id="idUploadCollectionAttachments1" beforeUploadStarts="onBeforeUploadStartsListData" uploadButtonInvisible="false"
 			uploadComplete="onUploadCompleteListData" multiple="true" instantUpload="true" mode="SingleSelectMaster"
 			fileDeleted="onFileDeletedListData" items="{ path: 'UploadAttachmentModel>/ATTACHSet', templateShareable: false }"
-			uploadUrl="/sap/opu/odata/sap/ZFI_EMP_CLAIM_REQ_SRV/ATTACHSet" change="onChangeListData1" typeMissmatch="onTypeMissmatchNew"
+			uploadUrl="/sap/opu/odata/sap/ZFI_BUDGET_REQ_SRV/ATTACHSet" change="onChangeListData1" typeMissmatch="onTypeMissmatchNew"
 			uploadEnabled="true" 
 			>
 			<!--uploadEnabled="{= (${Status} !== 'C' &amp;&amp; ${Status} !== 'I') &amp;&amp; ${Adminstatus} !== 'A'}"-->

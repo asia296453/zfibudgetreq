@@ -155,8 +155,8 @@ sap.ui.define([
                     // this.getOwnerComponent().getModel("create").getData().results.Kostl = res1.Kostl;// '1010100315',
                     // this.getOwnerComponent().getModel("create").getData().results.Ktext = res1.Ktext;//'TALENT ACQUISITION',
                     // this.getOwnerComponent().getModel("create").getData().results.Crtdat = ddate;
-                    // this.getOwnerComponent().getModel("create").getData().results.Crttime = scurtime;
-                    // this.getOwnerComponent().getModel("create").refresh(true);
+                    this.getOwnerComponent().getModel("create").getData().results.Process = 'SUPL';
+                    this.getOwnerComponent().getModel("create").refresh(true);
                     }
             }
             else{
