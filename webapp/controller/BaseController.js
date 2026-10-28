@@ -716,13 +716,17 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             var sBreqno = this.getOwnerComponent().getModel("create").getData().results.Breqno;
             this.readAllAttachmentData(this.getModel("AttachmentType").sListType, 'X',sBreqno);
         },
+          hasArabicLettersOnly:function(str) {
+             return /[\u0621-\u064A]/.test(str); 
+        },
         onChangeListData: function (e) {
             //BOC-EX-GOME
             var sregex = /^[0-9a-zA-Z ... ]+$/;
             var ofile = e.mParameters.files[0].name.split(".");
             this.sfile = e.mParameters.files[0].name;
-            if(ofile.length > 2){
-                sap.m.MessageBox.error("Invalid Filename", {
+            var bflag = this.hasArabicLettersOnly(e.mParameters.files[0].name);
+            if(ofile.length > 2 || bflag){
+                sap.m.MessageBox.error("Invalid Filename, please maintain file name in English", {
                     initialFocus: sap.m.MessageBox.Action.CANCEL,
                     onClose: function (sButton) {
                         if (sButton == "CLOSE") {
@@ -761,8 +765,9 @@ sap.ui.define(["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap
             var sregex = /^[0-9a-zA-Z ... ]+$/;
             var ofile = e.mParameters.files[0].name.split(".");
             this.sfile = e.mParameters.files[0].name;
-            if(ofile.length > 2){
-                sap.m.MessageBox.error("Invalid Filename", {
+            var bflag = this.hasArabicLettersOnly(e.mParameters.files[0].name);
+            if(ofile.length > 2 || bflag){
+                sap.m.MessageBox.error("Invalid Filename, please maintain file name in English", {
                     initialFocus: sap.m.MessageBox.Action.CANCEL,
                     onClose: function (sButton) {
                         if (sButton == "CLOSE") {

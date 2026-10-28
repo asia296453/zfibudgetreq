@@ -85,6 +85,8 @@ sap.ui.define([
                 
                 if (this.getOwnerComponent().getModel("create").getData().results.Status === '') {
                     sBreqno = '';
+                    this.getOwnerComponent().getModel("create").getData().results.Docdate = ddate;
+                    this.getdocyear(ddate);
                 }
                 if(response.Status === 'RE'){
                             this.getOwnerComponent().getModel("attachflag").setProperty("/flag", true);
@@ -92,8 +94,7 @@ sap.ui.define([
                         }else{
                              this.getOwnerComponent().getModel("attachflag").setProperty("/flag", false);
                         }
-                this.getOwnerComponent().getModel("create").getData().results.Docdate = ddate;
-                this.getdocyear(ddate);
+                
                     this.getOwnerComponent().getModel("create").refresh(true);
                 if(response.Pernr === '00000000'){
                     this.getOwnerComponent().getModel("create").getData().results.Pernr = '';
